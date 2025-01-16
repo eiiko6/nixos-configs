@@ -9,8 +9,15 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "Themis";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "Themis";
+    networkmanager.enable = true;
+    firewall = {
+      enable = false;
+      # allowedTCPPorts = [ ... ];
+      # allowedUDPPorts = [ ... ];
+    };
+  };
 
   time.timeZone = "Europe/Paris";
 
@@ -20,13 +27,7 @@
     keyMap = "us";
   };
 
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
-
-  services.libinput.enable = true;
-
+  # Users
   users.users = {
     strawberries = {
       isNormalUser = true;
@@ -38,37 +39,141 @@
     };
   };
 
-  programs.firefox.enable = true;
-  programs.hyprland.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    neovim
-    hyprland
-    waybar
-    swww
-    fish
-    kitty
-    xfce.thunar
-    firefox
-    chezmoi
-    starship
-    git
-    pywal
-    fastfetch
-    fira-code-nerdfont
-    imagemagick
-  ];
-
-  services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  networking.firewall.enable = false;
+  nixpkgs.config.allowUnfree = true;
 
   system.copySystemConfiguration = true;
-
   system.stateVersion = "24.11"; # Did you read the comment?
+
+  # Services
+  services = {
+    pipewire = {
+      enable = true;
+      pulse.enable = true;
+      alsa.enable = true;
+      jack.enable = true;
+    };
+
+    libinput.enable = true;
+
+    openssh.enable = true;
+
+    xserver = {
+      displayManager.sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
+      videoDrivers = ["nvidia"];
+    };
+  };
+
+  hardware = {
+    nvidia = {
+      # Modesetting is required.
+      modesetting.enable = true;
+      powerManagement.enable = false;
+      powerManagement.finegrained = false;
+      open = false;
+      nvidiaSettings = true;
+    };
+
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+      extraPackages = with pkgs; [
+        vaapiVdpau
+        libvdpau-va-gl
+        nvidia-vaapi-driver
+      ];
+    };
+
+    pulseaudio.support32Bit = true;
+  };
+
+  # Programs
+  programs = {
+    firefox.enable = true;
+
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+    };
+  };
+
+  # XDG Portals
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
+  # Fonts
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      fira-code-nerdfont
+      noto-fonts
+      noto-fonts-emoji
+      noto-fonts-cjk-sans
+      source-han-sans
+      source-han-sans-japanese
+      source-han-serif-japanese
+    ];
+
+    fontconfig.defaultFonts = {
+      monospace = [ "Fira Code SemiBold" ];
+      serif = [ "Noto Serif" "Source Han Serif" ];
+      sansSerif = [ "Noto Sans" "Source Han Sans" ];
+    };
+  };
+
+  # Environment variables and system packages
+  environment = {
+    sessionVariables = {
+      WLR_NO_HARDWARE_CURSORS = "1";
+      NIXOS_OZONE_WL = "1";
+      WLR_BACKEND = "vulkan";
+      WLR_RENDERER = "vulkan";
+    };
+
+    systemPackages = with pkgs; [
+      vim
+      wget
+      neovim
+      hyprland
+      waybar
+      swww
+      fish
+      kitty
+      xfce.thunar
+      firefox
+      chezmoi
+      starship
+      git
+      pywal
+      fastfetch
+      imagemagick
+      libgcc
+      btop
+      lemurs
+      hyprcursor
+      brightnessctl
+      pavucontrol
+      sqlite
+      nodejs_22
+      python39
+      mako
+      wofi
+      cliphist
+      wl-clipboard
+      grim
+      slurp
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-tools
+      xdg-desktop-portal
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-wlr
+    ];
+  };
 }
