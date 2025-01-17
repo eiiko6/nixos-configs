@@ -57,12 +57,9 @@
 
     openssh.enable = true;
 
-    xserver = {
-      displayManager.sddm = {
+    displayManager.sddm = {
         enable = true;
         wayland.enable = true;
-      };
-      videoDrivers = ["nvidia"];
     };
   };
 
@@ -76,10 +73,8 @@
       nvidiaSettings = true;
     };
 
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
       extraPackages = with pkgs; [
         vaapiVdpau
         libvdpau-va-gl
@@ -111,7 +106,7 @@
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [
-      fira-code-nerdfont
+      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
       noto-fonts
       noto-fonts-emoji
       noto-fonts-cjk-sans
@@ -134,6 +129,7 @@
       NIXOS_OZONE_WL = "1";
       WLR_BACKEND = "vulkan";
       WLR_RENDERER = "vulkan";
+      AQ_DRM_DEVICES = "/dev/dri/card1";
     };
 
     systemPackages = with pkgs; [
@@ -153,7 +149,7 @@
       pywal
       fastfetch
       imagemagick
-      libgcc
+      gcc
       btop
       lemurs
       hyprcursor
@@ -174,6 +170,23 @@
       xdg-desktop-portal
       xdg-desktop-portal-gtk
       xdg-desktop-portal-wlr
+      fuse3
+      blueman
+      gtk3
+      rust-analyzer
+      networkmanagerapplet
+      mupdf
+      unzip
+      unrar
+      wireplumber
+      lxappearance
+      libsForQt5.qt5ct
+      libsForQt5.qt5.qtquickcontrols2
+      kdePackages.qt6ct
+      spotify
+      pamixer
+      pulseaudio
+      graphite-gtk-theme
     ];
   };
 }
