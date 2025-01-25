@@ -2,8 +2,11 @@
 
 {
   imports = [
-      inputs.home-manager.nixosModules.default
-    ];
+    inputs.home-manager.nixosModules.default
+    inputs.nix-minecraft.nixosModules.minecraft-servers
+  ];
+
+  nixpkgs.overlays = [ inputs.nix-minecraft.overlay ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -13,7 +16,7 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 ];
+      allowedTCPPorts = [ 22 49153 ];
     };
   };
 
@@ -73,6 +76,27 @@
     };
   };
 
+  # Minecraft server
+  services.minecraft-servers = {
+    enable = true;
+    eula = true;
+
+    servers = {
+      vanilla-survival = {
+        enable = true;
+        package = pkgs.paperServers.paper-1_21_4;
+
+        serverProperties = {
+          server-port = 49153;
+          gamemode = "survival";
+          difficulty = "hard";
+          simulation-distance = 25;
+          view-distance = 25;
+        };
+      };
+    };
+  };
+
   # Environment variables and system packages
   environment = {
     systemPackages = with pkgs; [
@@ -94,6 +118,7 @@
       pywal
       rust-analyzer
       starship
+      tmux
       unrar
       unzip
       vim

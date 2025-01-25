@@ -6,8 +6,10 @@
 
     home-manager = {
       url = "github:nix-community/home-manager";
-        inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
@@ -15,7 +17,7 @@
     	desktop = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
       	modules = [
-        	./hosts/desktop/configuration.nix
+          ./hosts/desktop/configuration.nix
           ./hardware-configuration.nix
           home-manager.nixosModules.home-manager
       	];
@@ -23,7 +25,7 @@
     	server = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
       	modules = [
-        	./hosts/server/configuration.nix
+          ./hosts/server/configuration.nix
           ./hardware-configuration.nix
           home-manager.nixosModules.home-manager
       	];
