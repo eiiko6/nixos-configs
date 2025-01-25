@@ -9,12 +9,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-    hostName = "Themis";
+    hostName = "Alatreon";
     networkmanager.enable = true;
     firewall = {
-      enable = false;
-      # allowedTCPPorts = [ ... ];
-      # allowedUDPPorts = [ ... ];
+      enable = true;
+      allowedTCPPorts = [ 22 ];
     };
   };
 
@@ -50,44 +49,7 @@
 
   # Services
   services = {
-    pipewire = {
-      enable = true;
-      pulse.enable = true;
-      alsa.enable = true;
-      jack.enable = true;
-    };
-
-    libinput.enable = true;
-
     openssh.enable = true;
-
-    displayManager.sddm = {
-        enable = true;
-        wayland.enable = true;
-    };
-  };
-
-  hardware = {
-    graphics = {
-      enable = true;
-    };
-  };
-
-  # Programs
-  programs = {
-    firefox.enable = true;
-
-    hyprland = {
-      enable = true;
-      xwayland.enable = true;
-    };
-  };
-
-  # XDG Portals
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # Fonts
@@ -113,65 +75,31 @@
 
   # Environment variables and system packages
   environment = {
-    sessionVariables = {
-      WLR_NO_HARDWARE_CURSORS = "1";
-    };
-
     systemPackages = with pkgs; [
-      blueman
-      brightnessctl
       btop
       cargo
       chezmoi
-      cliphist
       eza
       fastfetch
-      firefox
       fish
-      fuse3
       gcc
       git
-      grim
-      gtk3
-      hyprcursor
-      hyprland
       imagemagick
-      kdePackages.qt6ct
       kitty
-      lemurs
-      libsForQt5.qt5.qtquickcontrols2
-      libsForQt5.qt5ct
-      lxappearance
-      mako
       mupdf
       neovim
       networkmanagerapplet
       nodejs_22
-      pamixer
-      pavucontrol
-      pulseaudio
       python39
       pywal
       rust-analyzer
-      slurp
-      spotify
-      sqlite
       starship
-      swww
       unrar
       unzip
       vim
-      vulkan-loader
-      vulkan-tools
-      vulkan-validation-layers
-      waybar
       wget
-      wireplumber
       wl-clipboard
       wofi
-      xdg-desktop-portal
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-wlr
       xfce.thunar
     ];
   };

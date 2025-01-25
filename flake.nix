@@ -16,6 +16,15 @@
         specialArgs = {inherit inputs;};
       	modules = [
         	./hosts/desktop/configuration.nix
+          ./hardware-configuration.nix
+          home-manager.nixosModules.home-manager
+      	];
+      };
+    	server = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+      	modules = [
+        	./hosts/server/configuration.nix
+          ./hardware-configuration.nix
           home-manager.nixosModules.home-manager
       	];
       };
