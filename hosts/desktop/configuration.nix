@@ -1,9 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      inputs.home-manager.nixosModules.default
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -32,16 +33,21 @@
     strawberries = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
-      packages = with pkgs; [
-        tree
-      ];
       initialPassword = "4587";
+    };
+  };
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      "strawberries" = import ./home.nix;
     };
   };
 
   nixpkgs.config.allowUnfree = true;
 
-  system.copySystemConfiguration = true;
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
   system.stateVersion = "24.11"; # Did you read the comment?
 
   # Services
@@ -64,25 +70,9 @@
   };
 
   hardware = {
-    nvidia = {
-      # Modesetting is required.
-      modesetting.enable = true;
-      powerManagement.enable = false;
-      powerManagement.finegrained = false;
-      open = false;
-      nvidiaSettings = true;
-    };
-
     graphics = {
       enable = true;
-      extraPackages = with pkgs; [
-        vaapiVdpau
-        libvdpau-va-gl
-        nvidia-vaapi-driver
-      ];
     };
-
-    pulseaudio.support32Bit = true;
   };
 
   # Programs
@@ -106,7 +96,8 @@
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+      nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
       noto-fonts
       noto-fonts-emoji
       noto-fonts-cjk-sans
@@ -126,67 +117,64 @@
   environment = {
     sessionVariables = {
       WLR_NO_HARDWARE_CURSORS = "1";
-      NIXOS_OZONE_WL = "1";
-      WLR_BACKEND = "vulkan";
-      WLR_RENDERER = "vulkan";
-      AQ_DRM_DEVICES = "/dev/dri/card1";
     };
 
     systemPackages = with pkgs; [
-      vim
-      wget
-      neovim
-      hyprland
-      waybar
-      swww
-      fish
-      kitty
-      xfce.thunar
-      firefox
-      chezmoi
-      starship
-      git
-      pywal
-      fastfetch
-      imagemagick
-      gcc
-      btop
-      lemurs
-      hyprcursor
+      blueman
       brightnessctl
-      pavucontrol
-      sqlite
-      nodejs_22
-      python39
-      mako
-      wofi
+      btop
+      cargo
+      chezmoi
       cliphist
-      wl-clipboard
+      eza
+      fastfetch
+      firefox
+      fish
+      fuse3
+      gcc
+      git
       grim
+      gtk3
+      hyprcursor
+      hyprland
+      imagemagick
+      kdePackages.qt6ct
+      kitty
+      lemurs
+      libsForQt5.qt5.qtquickcontrols2
+      libsForQt5.qt5ct
+      lxappearance
+      mako
+      mupdf
+      neovim
+      networkmanagerapplet
+      nodejs_22
+      pamixer
+      pavucontrol
+      pulseaudio
+      python39
+      pywal
+      rust-analyzer
       slurp
+      spotify
+      sqlite
+      starship
+      swww
+      unrar
+      unzip
+      vim
       vulkan-loader
-      vulkan-validation-layers
       vulkan-tools
+      vulkan-validation-layers
+      waybar
+      wget
+      wireplumber
+      wl-clipboard
+      wofi
       xdg-desktop-portal
       xdg-desktop-portal-gtk
       xdg-desktop-portal-wlr
-      fuse3
-      blueman
-      gtk3
-      rust-analyzer
-      networkmanagerapplet
-      mupdf
-      unzip
-      unrar
-      wireplumber
-      lxappearance
-      libsForQt5.qt5ct
-      libsForQt5.qt5.qtquickcontrols2
-      kdePackages.qt6ct
-      spotify
-      pamixer
-      pulseaudio
-      graphite-gtk-theme
+      xfce.thunar
     ];
   };
 }
