@@ -12,7 +12,7 @@
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, nix-minecraft, ... }@inputs: {
     nixosConfigurations = {
     	desktop = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
@@ -28,6 +28,7 @@
           ./hosts/server/configuration.nix
           ./hardware-configuration.nix
           home-manager.nixosModules.home-manager
+          nix-minecraft.nixosModules.minecraft-servers
       	];
       };
     };
