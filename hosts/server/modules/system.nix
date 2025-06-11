@@ -17,6 +17,8 @@
   environment.systemPackages = with pkgs; [
     btop
     cargo
+    fd
+    ripgrep
     chezmoi
     eza
     fastfetch
@@ -25,7 +27,6 @@
     git
     home-manager
     imagemagick
-    mupdf
     neovim
     nodejs_22
     rust-analyzer
@@ -34,6 +35,5 @@
     unzip
     vim
     wget
-    xfce.thunar
   ];
 }

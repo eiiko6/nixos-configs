@@ -1,9 +1,9 @@
 { config, pkgs, inputs, lib, ... }:
 let
   modpack = pkgs.fetchPackwizModpack {
-    url = "https://raw.githubusercontent.com/eiiko6/pkmsmp/refs/heads/master/pack.toml";
-    packHash = "sha256-hBcgJHSlnWi+rHn9TSu5KNa5cBSEyXPErQXzYN32cF4=";
-    manifestHash = "sha256-uiE+ksV0GgIw7R86nev7b3aUDpqfAeVhYifZLgnKg10=";
+    url = "https://raw.githubusercontent.com/eiiko6/create-modpack/refs/heads/master/pack.toml";
+    packHash = "sha256-DWYhLFGhQOASX8EgMHPJ+xZ3JQqT8rwZMEd7/4vqaCo=";
+    manifestHash = "1aadzb7dihgb6xjx5h5ma3dh28bwq9kmrsv9ysfaayg2d5akmy3p";
   };
   mcVersion = modpack.manifest.versions.minecraft;
   fabricVersion = modpack.manifest.versions.fabric;
@@ -50,6 +50,7 @@ in
           view-distance = 25;
 
           spawn-protection = 0;
+          enable-command-block = true;
 
           gamemode = "creative";
           difficulty = "normal";
@@ -57,7 +58,7 @@ in
           generate-structures = false;
         };
       };
-      pkmsmp = {
+      create-smp = {
         enable = true;
         autoStart = false;
         package = pkgs.fabricServers.${serverVersion}.override { loaderVersion = fabricVersion; };
@@ -70,7 +71,7 @@ in
 
         serverProperties = {
           server-port = 49153;
-          motd = "PkmSMP hosted myself ^^";
+          motd = "Create SMP hosted myself ^^";
 
           simulation-distance = 25;
           view-distance = 25;
