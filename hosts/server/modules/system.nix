@@ -35,5 +35,7 @@
     unzip
     vim
     wget
+    pkg-config
+    openssl
   ];
 }

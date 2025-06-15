@@ -10,9 +10,11 @@
     };
 
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+
+    ferrisbot.url = "github:eiiko6/ferrisbot";
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-minecraft, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, nix-minecraft, ferrisbot, ... }@inputs: {
     nixosConfigurations = {
     	desktop = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};

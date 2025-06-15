@@ -22,14 +22,9 @@
       cm = "chezmoi";
       cmcd = "cd /home/strawberries/.local/share/chezmoi/";
       ta = "tmux attach";
-      theme = "~/.config/scripts/palette/change-wallpaper.sh";
     };
 
     interactiveShellInit = ''
-      function palette
-          ~/.config/scripts/palette/change-wallpaper.sh $argv
-      end
-
       if status is-interactive
           ff
       else
@@ -43,13 +38,18 @@
       # Set the prompt
       starship init fish | source
 
+      # Add PATH
+      set PATH $PATH /home/strawberries/.local/bin
+      set PATH $PATH /home/strawberries/.cargo/bin
+
       # Bindings
-      bind \b 'commandline -r ""'
+      bind ctrl-backspace 'commandline -r ""'
 
       # External configs
       for file in ~/.config/fish/functions/*
           source $file 2>/dev/null
       end
+
       source ~/private/config.fish 2>/dev/null
     '';
   };
