@@ -4,11 +4,11 @@
   services = {
     openssh = {
       enable = true;
-      ports = [ 49152 ];
+      ports = [ 22 49152 ];
       settings = {
         PasswordAuthentication = false;
         AllowUsers = null;
-        X11Forwarding = false;
+        X11Forwarding = true;
         PermitRootLogin = "no";
       };
     };

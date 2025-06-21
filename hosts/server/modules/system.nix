@@ -12,9 +12,24 @@
     keyMap = "us";
   };
 
+  # Awkward passwordless command wrapper, just ignore that
+  security.sudo.extraRules = [
+    {
+      users = [ "strawberries" ];
+      commands = [
+        {
+          command = "/usr/bin/passwordless.sh";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
   # nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    xorg.xauth
+    firefox
     btop
     cargo
     fd

@@ -8,6 +8,7 @@
     ./modules/services.nix
     ./modules/minecraft.nix
     ./modules/ferrisbot.nix
+    ./modules/webserver.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
