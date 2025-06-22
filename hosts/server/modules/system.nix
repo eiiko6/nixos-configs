@@ -28,6 +28,7 @@
   # nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    dust
     xorg.xauth
     firefox
     btop

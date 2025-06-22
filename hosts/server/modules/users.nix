@@ -1,11 +1,18 @@
 { config, pkgs, inputs, ... }:
 
 {
-  users.users = {
-    strawberries = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" ];
-      shell = pkgs.fish;
+  users = {
+    groups.webshare = {};
+    users = {
+      strawberries = {
+        isNormalUser = true;
+        extraGroups = [ "wheel" "webshare" ];
+        shell = pkgs.fish;
+      };
+
+      nginx = {
+        extraGroups = [ "webshare" ];
+      };
     };
   };
 

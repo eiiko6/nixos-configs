@@ -5,6 +5,9 @@
     enable = true;
 
     virtualHosts."alatreon.org" = {
+      enableACME = true;
+      forceSSL = true;
+
       root = "/var/www/home";
 
       locations."/" = {
@@ -17,8 +20,13 @@
         tryFiles = "$uri $uri/ /portfolio/index.html";
       };
 
-      enableACME = true;
-      forceSSL = true;
+      locations."/share/" = {
+        alias = "/var/www/share/";
+        extraConfig = ''
+          # autoindex on;
+          default_type application/octet-stream;
+        '';
+      };
     };
   };
 

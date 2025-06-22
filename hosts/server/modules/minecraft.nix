@@ -2,8 +2,8 @@
 let
   modpack = pkgs.fetchPackwizModpack {
     url = "https://raw.githubusercontent.com/eiiko6/create-modpack/refs/heads/master/pack.toml";
-    packHash = "sha256-LZe0FB6XSSD9Qwh6ths95gGAp18M6jhmQ9I/UClHxN4=";
-    manifestHash = "sha256:1d0qp2gwq4n0jh3z1wbyrfx8j3j03i46bh9672pda5all0idsxyi";
+    packHash = "sha256-dg7Nz97BHMKQLoAnKv6qoKd2RnwXSrtH1GIp8COK1M0=";
+    manifestHash = "sha256-MwfRx8KSKOLCkEtZkbjHlmtn5CIUMDib33bos86q36g=";
   };
   mcVersion = modpack.manifest.versions.minecraft;
   fabricVersion = modpack.manifest.versions.fabric;
